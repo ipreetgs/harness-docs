@@ -1,0 +1,19 @@
+docker run -d  --user root --cpus=1 --memory=2g \
+  -e DELEGATE_NAME=docker-delegate2-terraform-terragrunt \
+  -e NEXT_GEN="true" \
+  -e DELEGATE_TYPE="DOCKER" \
+  -e ACCOUNT_ID=******************** \
+  -e DELEGATE_TOKEN=*************************= \
+  -e INIT_SCRIPT="microdnf install zip unzip
+                  curl -O -L https://releases.hashicorp.com/terraform/1.8.0/terraform_1.8.0_linux_amd64.zip
+                  unzip terraform_1.8.0_linux_amd64.zip
+                  mv ./terraform /usr/bin/
+                  curl -O -L https://github.com/gruntwork-io/terragrunt/releases/download/v0.57.9/terragrunt_linux_amd64
+                  mv terragrunt_linux_amd64 terragrunt
+                  chmod u+x terragrunt
+                  mv terragrunt /usr/local/bin/terragrunt
+                  terragrunt --version" \
+  -e DELEGATE_TAGS="delegate-2-terraform" \
+  -e RUNNER_URL=http://18..143:3000 \
+  -e LOG_STREAMING_SERVICE_URL=https://app.harness.io/log-service/ \
+  -e MANAGER_HOST_AND_PORT=https://app.harness.io harness/delegate:24.03.82600
